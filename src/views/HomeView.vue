@@ -4,6 +4,8 @@
 
 <template>
   <main>
-    Welcome
+    <div class="container mt-4">
+      Welcome
+    </div>
   </main>
 </template>

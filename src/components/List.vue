@@ -1,9 +1,34 @@
 <template>
-    <div>
-        <div v-for="employee in employees" :key="employee.id">
-            <div>{{ employee.id }}</div>
-            <div>{{ employee.name }}</div>
-            <div>{{ employee.email }}</div>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Lista de Empleados</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="employee in employees" :key="employee.id">
+                                <td scope="row">{{ employee.id }}</td>
+                                <td>{{ employee.name }}</td>
+                                <td>{{ employee.email }}</td>
+                                <td>
+                                    <a class="btn btn-warning">Editar</a>
+                                    <a class="btn btn-danger">Eliminar</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </template>
