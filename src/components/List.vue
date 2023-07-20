@@ -21,8 +21,11 @@
                                 <td>{{ employee.name }}</td>
                                 <td>{{ employee.email }}</td>
                                 <td>
-                                    <a class="btn btn-warning">Editar</a>
-                                    <a class="btn btn-danger">Eliminar</a>
+                                    <div class="btn-group" role="group" aria-label="Button group name">
+                                        <!-- <button type="button" class="btn btn-warning">Editar</button> -->
+                                        <router-link :to="{name:'Edit', param:{id:employee.id}}" class="btn btn-warning">Editar</router-link>
+                                        <button type="button" class="btn btn-danger" v-on:click="deleteEmployee(employee.id)">Eliminar</button>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -55,6 +58,16 @@ export default {
                 if (typeof dataResponse[0].success === 'undefined') {
                     this.employees = dataResponse;
                 }
+            })
+            .catch(console.log)
+        },
+        deleteEmployee(id){
+            console.log(id);
+            fetch('http://localhost/employees/?delete='+id)
+            .then(response => response.json())
+            .then((dataResponse) => {
+                console.log(dataResponse);
+                window.location.href="list"
             })
             .catch(console.log)
         }
