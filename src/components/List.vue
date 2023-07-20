@@ -1,5 +1,6 @@
 <template>
     <div class="container mt-4">
+        <RouterLink class="btn btn-primary mb-2" to="/create">Agregar Empleado</RouterLink>
         <div class="card">
             <div class="card-header">
                 <h5>Lista de Empleados</h5>
