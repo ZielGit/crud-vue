@@ -22,8 +22,7 @@
                                 <td>{{ employee.email }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Button group name">
-                                        <!-- <button type="button" class="btn btn-warning">Editar</button> -->
-                                        <router-link :to="{name:'Edit', param:{id:employee.id}}" class="btn btn-warning">Editar</router-link>
+                                        <router-link :to="{name:'Edit', params:{id:employee.id}}" class="btn btn-warning">Editar</router-link>
                                         <button type="button" class="btn btn-danger" v-on:click="deleteEmployee(employee.id)">Eliminar</button>
                                     </div>
                                 </td>
