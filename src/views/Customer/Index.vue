@@ -41,6 +41,7 @@ import { ref, onMounted } from 'vue';
 import axios from "axios";
 import { handleErrors } from '@/utils/index';
 
+const apiUrl = import.meta.env.VITE_API_URL;
 const customers = ref([]);
 
 onMounted(async () => {
@@ -49,7 +50,7 @@ onMounted(async () => {
 
 const fetchCustomers = async () => {
     try {
-        const response = await axios.get('http://localhost:8000/api/customers');
+        const response = await axios.get(`${apiUrl}/customers`);
         customers.value = response.data;
     } catch (error) {
         handleErrors(error);
@@ -58,7 +59,7 @@ const fetchCustomers = async () => {
 
 const deleteCustomer = async (id) => {
     try {
-        await axios.delete(`http://localhost:8000/api/customers/${id}`);
+        await axios.delete(`${apiUrl}/customers/${id}`);
         await fetchCustomers();
     } catch (error) {
         handleErrors(error);
