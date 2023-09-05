@@ -36,41 +36,32 @@
     </div>
 </template>
 
-<script>
-export default {
-    data () {
-        return {
-            customers:[]
-        }
-    },
-    created:function(){
-        this.consultCustomers();
-    },
-    methods:{
-        consultCustomers(){
-            fetch('http://localhost:8000/api/customers')
-            .then(response => response.json())
-            .then((dataResponse) => {
-                this.customers = []
-                if (typeof dataResponse[0].success === 'undefined') {
-                    this.customers = dataResponse;
-                }
-            })
-            .catch(console.log)
-        },
-        deleteCustomer(id){
-            console.log(id);
-            fetch('http://localhost:8000/api/customers/'+id, {
-                method:"DELETE",
-                headers: { "Content-Type": "application/json" }
-            })
-            .then(response => response.json())
-            .then((dataResponse) => {
-                console.log(dataResponse);
-                window.location.href="customers";
-            })
-            .catch(console.log)
-        }
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from "axios";
+import { handleErrors } from '@/utils/index';
+
+const customers = ref([]);
+
+onMounted(async () => {
+    await fetchCustomers();
+});
+
+const fetchCustomers = async () => {
+    try {
+        const response = await axios.get('http://localhost:8000/api/customers');
+        customers.value = response.data;
+    } catch (error) {
+        handleErrors(error);
     }
-}
+};
+
+const deleteCustomer = async (id) => {
+    try {
+        await axios.delete(`http://localhost:8000/api/customers/${id}`);
+        await fetchCustomers();
+    } catch (error) {
+        handleErrors(error);
+    }
+};
 </script>
