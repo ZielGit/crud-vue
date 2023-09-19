@@ -1,5 +1,13 @@
 import iziToast from 'izitoast';
 
+export const showToastSuccess = (message) => {
+  iziToast.success({
+    title: 'Éxito',
+    message: message,
+    position: 'topRight',
+  });
+};
+
 export function handleErrors(error) {
   if (error.response) {
     const { data } = error.response;
@@ -10,6 +18,7 @@ export function handleErrors(error) {
           iziToast.error({
             title: 'Error',
             message: `${key}: ${errorMessages}`,
+            position: 'topRight',
           });
         }
       }
