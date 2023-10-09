@@ -14,7 +14,9 @@ axios.defaults.withCredentials = false; // Por defecto en Laravel 'supports_cred
 import 'izitoast/dist/css/iziToast.css';
 
 const app = createApp(App)
+const pinia = createPinia();
 
+app.use(pinia);
 app.use(router)
 
 app.mount('#app')
