@@ -42,12 +42,14 @@
 <script setup>
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
-import { showToastSuccess, handleErrors } from '@/utils/index';
 import { useRoute, useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/authStore';
+import { showToastSuccess, handleErrors } from '@/utils/index';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+const authStore = useAuthStore();
 const route = useRoute();
 const router = useRouter();
-const apiUrl = import.meta.env.VITE_API_URL;
 const customer = ref({});
 const formData = ref({});
 
@@ -57,7 +59,16 @@ onMounted(() => {
 
 const getCustomer = async () => {
     try {
-        const response = await axios.get(`${apiUrl}/customers/${route.params.id}`);
+        const accessToken = authStore.accessToken;
+        if (!accessToken) {
+            router.push('/login');
+        }
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+        };
+        const response = await axios.get(`${apiUrl}/customers/${route.params.id}`, {
+            headers,
+        });
         customer.value = response.data.customer;
         formData.value = { ...customer.value }
     } catch (error) {
@@ -67,7 +78,16 @@ const getCustomer = async () => {
 
 const updateCustomer = async () => {
     try {
-        const response = await axios.put(`${apiUrl}/customers/${customer.value.id}`, formData.value); // Realiza una solicitud PUT a la API para actualizar el Customer
+        const accessToken = authStore.accessToken;
+        if (!accessToken) {
+            router.push('/login');
+        }
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+        };
+        const response = await axios.put(`${apiUrl}/customers/${customer.value.id}`, formData.value, {
+            headers,
+        });
         router.push('/customers');
         showToastSuccess(response.data.message);
     } catch (error) {

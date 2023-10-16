@@ -24,7 +24,7 @@
                                 <td>{{ customer.email }}</td>
                                 <td>{{ customer.phone }}</td>
                                 <td>
-                                    <router-link :to="{ name:'customers.edit', params:{id:customer.id} }" class="btn btn-warning me-1">Edit</router-link>
+                                    <router-link :to="{ name: 'customers.edit', params: { id: customer.id } }" class="btn btn-warning me-1">Edit</router-link>
                                     <button type="button" class="btn btn-danger" v-on:click="deleteCustomer(customer.id)">Delete</button>
                                 </td>
                             </tr>
@@ -39,9 +39,12 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from "axios";
+import router from '@/router';
+import { useAuthStore } from '@/stores/authStore';
 import { handleErrors } from '@/utils/index';
 
 const apiUrl = import.meta.env.VITE_API_URL;
+const authStore = useAuthStore();
 const customers = ref([]);
 
 onMounted(async () => {
@@ -50,7 +53,18 @@ onMounted(async () => {
 
 const fetchCustomers = async () => {
     try {
-        const response = await axios.get(`${apiUrl}/customers`);
+        const accessToken = authStore.accessToken;
+        // Comprueba si hay un token de acceso antes de hacer la solicitud
+        if (!accessToken) {
+            // Puedes manejar esto de manera adecuada, como redirigir al usuario al inicio de sesión
+            router.push('/login');
+        }
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+        };
+        const response = await axios.get(`${apiUrl}/customers`, {
+            headers,
+        });
         customers.value = response.data;
     } catch (error) {
         handleErrors(error);
@@ -59,7 +73,16 @@ const fetchCustomers = async () => {
 
 const deleteCustomer = async (id) => {
     try {
-        await axios.delete(`${apiUrl}/customers/${id}`);
+        const accessToken = authStore.accessToken;
+        if (!accessToken) {
+            router.push('/login');
+        }
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+        };
+        await axios.delete(`${apiUrl}/customers/${id}`, {
+            headers,
+        });
         await fetchCustomers();
     } catch (error) {
         handleErrors(error);

@@ -1,5 +1,33 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import axios from "axios";
+import router from '@/router';
+import { useAuthStore } from '@/stores/authStore';
+import { handleErrors } from '@/utils/index';
+
+const apiUrl = import.meta.env.VITE_API_URL;
+const authStore = useAuthStore();
+
+const logout = async () => {
+  try {
+    const accessToken = authStore.accessToken;
+    if (!accessToken) {
+      router.push('/login');
+    }
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+    const response = await axios.get(`${apiUrl}/logout`, {
+      headers,
+    });
+    if (response.status === 200) {
+      authStore.clearAccessToken();
+      router.push('/login');
+    }
+  } catch (error) {
+    handleErrors(error);
+  }
+};
 </script>
 
 <template>
@@ -34,8 +62,12 @@ import { RouterLink, RouterView } from 'vue-router'
               <RouterLink class="nav-link" to="/create">Create</RouterLink>
             </li>
           </ul>
-          <div class="d-flex">
+
+          <div v-if="!authStore.accessToken" class="d-flex">
             <RouterLink class="btn btn-outline-success" to="/login">Login</RouterLink>
+          </div>
+          <div v-if="authStore.accessToken" class="d-flex">
+            <button @click="logout" class="btn btn-outline-danger">Logout</button>
           </div>
         </div>
       </div>
@@ -44,7 +76,3 @@ import { RouterLink, RouterView } from 'vue-router'
 
   <RouterView />
 </template>
-
-<style scoped>
-
-</style>

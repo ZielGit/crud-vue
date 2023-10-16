@@ -43,9 +43,11 @@
 import axios from "axios";
 import { ref } from "vue";
 import router from '@/router';
+import { useAuthStore } from '@/stores/authStore';
 import { showToastSuccess, handleErrors } from '@/utils/index';
 
 const apiUrl = import.meta.env.VITE_API_URL;
+const authStore = useAuthStore();
 
 var customer = ref({
     document_type: '',
@@ -57,8 +59,17 @@ var customer = ref({
 
 const saveCustomer = async () => {
     try {
+        const accessToken = authStore.accessToken;
+        if (!accessToken) {
+            router.push('/login');
+        }
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+        };
         customer.value.document_number = String(customer.value.document_number);
-        const response = await axios.post(`${apiUrl}/customers`, customer.value);
+        const response = await axios.post(`${apiUrl}/customers`, customer.value, {
+            headers,
+        });
         router.push('/customers');
         showToastSuccess(response.data.message);
         console.log(customer.value);

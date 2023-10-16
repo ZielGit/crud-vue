@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'
 import HomeView from '../views/HomeView.vue'
 import CustomerIndex from '../views/Customer/Index.vue'
 import CustomerCreate from '../views/Customer/Create.vue'
@@ -24,17 +25,20 @@ const router = createRouter({
     {
       path: '/customers',
       name: 'customers.index',
-      component: CustomerIndex
+      component: CustomerIndex,
+      meta: { requiresAuth: true },
     },
     {
       path: '/customers/create',
       name: 'customers.create',
-      component: CustomerCreate
+      component: CustomerCreate,
+      meta: { requiresAuth: true },
     },
     {
       path: '/customers/edit/:id',
       name: 'customers.edit',
-      component: CustomersEdit
+      component: CustomersEdit,
+      meta: { requiresAuth: true },
     },
     {
       path: '/create',
@@ -53,5 +57,19 @@ const router = createRouter({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!authStore.accessToken) {
+      // El usuario no está autenticado, redirige a la página de inicio de sesión
+      next('/login');
+    } else {
+      next(); // El usuario está autenticado, permite la navegación
+    }
+  } else {
+    next(); // No se requiere autenticación para esta ruta
+  }
+});
 
 export default router
