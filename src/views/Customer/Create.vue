@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="btn-group" role="group" aria-label="Button group name">
-                        <button type="submit" class="btn btn-primary me-2">Agregar</button>
+                        <Button type="submit" class="me-2" primary>Agregar</Button>
                         <router-link :to="{name:'customers.index'}" class="btn btn-secondary">Cancelar</router-link>
                     </div>
                 </form>

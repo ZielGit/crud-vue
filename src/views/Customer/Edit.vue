@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div>
-                        <button type="submit" class="btn btn-primary me-1">Edit</button>
+                        <Button type="submit" class="me-2" primary>Edit</Button>
                         <router-link :to="{ name:'customers.index'}" class="btn btn-secondary">Cancel</router-link>
                     </div>
                 </form>

@@ -67,7 +67,7 @@ const logout = async () => {
             <RouterLink class="btn btn-outline-success" to="/login">Login</RouterLink>
           </div>
           <div v-if="authStore.accessToken" class="d-flex">
-            <button @click="logout" class="btn btn-outline-danger">Logout</button>
+            <Button type="button" outlineDanger @click="logout">Logout</Button>
           </div>
         </div>
       </div>

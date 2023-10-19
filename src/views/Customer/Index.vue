@@ -25,7 +25,7 @@
                                 <td>{{ customer.phone }}</td>
                                 <td>
                                     <router-link :to="{ name: 'customers.edit', params: { id: customer.id } }" class="btn btn-warning me-1">Edit</router-link>
-                                    <button type="button" class="btn btn-danger" v-on:click="deleteCustomer(customer.id)">Delete</button>
+                                    <Button type="button" danger @click="deleteCustomer(customer.id)">Delete</Button>
                                 </td>
                             </tr>
                         </tbody>
