@@ -8,9 +8,6 @@ import ServicesIndex from '../views/Service/Index.vue'
 import ServicesCreate from '../views/Service/Create.vue'
 import ServicesEdit from '../views/Service/Edit.vue'
 import Login from '../views/Login.vue'
-import Create from '../components/Create.vue'
-import Edit from '../components/Edit.vue'
-import List from '../components/List.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -61,21 +58,6 @@ const router = createRouter({
       component: ServicesEdit,
       meta: { requiresAuth: true },
     },
-    {
-      path: '/create',
-      name: 'Create',
-      component: Create
-    },
-    {
-      path: '/edit/:id',
-      name: 'Edit',
-      component: Edit
-    },
-    {
-      path: '/list',
-      name: 'List',
-      component: List
-    }
   ]
 })
 

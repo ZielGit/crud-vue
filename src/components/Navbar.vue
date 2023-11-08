@@ -20,12 +20,6 @@
           <li class="nav-item">
             <RouterLink class="nav-link active" to="/services">Services</RouterLink>
           </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/list">List</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/create">Create</RouterLink>
-          </li>
         </ul>
 
         <div v-if="!authStore.accessToken" class="d-flex">
