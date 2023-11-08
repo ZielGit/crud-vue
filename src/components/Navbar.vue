@@ -15,7 +15,10 @@
             <RouterLink class="nav-link active" to="/">Home</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link active" to="/customers">Customer</RouterLink>
+            <RouterLink class="nav-link active" to="/customers">Customers</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link active" to="/services">Services</RouterLink>
           </li>
           <li class="nav-item">
             <RouterLink class="nav-link" to="/list">List</RouterLink>

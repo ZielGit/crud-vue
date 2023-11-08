@@ -4,6 +4,9 @@ import HomeView from '../views/HomeView.vue'
 import CustomerIndex from '../views/Customer/Index.vue'
 import CustomerCreate from '../views/Customer/Create.vue'
 import CustomersEdit from '../views/Customer/Edit.vue'
+import ServicesIndex from '../views/Service/Index.vue'
+import ServicesCreate from '../views/Service/Create.vue'
+import ServicesEdit from '../views/Service/Edit.vue'
 import Login from '../views/Login.vue'
 import Create from '../components/Create.vue'
 import Edit from '../components/Edit.vue'
@@ -38,6 +41,24 @@ const router = createRouter({
       path: '/customers/edit/:id',
       name: 'customers.edit',
       component: CustomersEdit,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/services',
+      name: 'services.index',
+      component: ServicesIndex,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/services/create',
+      name: 'services.create',
+      component: ServicesCreate,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/services/edit/:id',
+      name: 'services.edit',
+      component: ServicesEdit,
       meta: { requiresAuth: true },
     },
     {
