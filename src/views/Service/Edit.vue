@@ -15,7 +15,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="price" class="form-label">Precio</label>
-                            <input type="number" class="form-control" name="" id="price" v-model="formData.price" placeholder="" required>
+                            <input type="number" class="form-control" name="" id="price" min="0" step="any" v-model="formData.price" placeholder="" required>
                         </div>
                     </div>
                     <div>
@@ -58,7 +58,7 @@ const getService = async () => {
         const response = await axios.get(`${apiUrl}/services/${route.params.id}`, {
             headers,
         });
-        service.value = response.data.service;
+        service.value = response.data;
         formData.value = { ...service.value }
     } catch (error) {
         handleErrors(error);
@@ -74,6 +74,7 @@ const updateService = async () => {
         const headers = {
             Authorization: `Bearer ${accessToken}`,
         };
+        formData.value.price = parseFloat(formData.value.price).toFixed(2);
         const response = await axios.put(`${apiUrl}/services/${service.value.id}`, formData.value, {
             headers,
         });

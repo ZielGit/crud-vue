@@ -15,7 +15,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="price" class="form-label">Precio</label>
-                            <input type="number" class="form-control" name="" id="price" v-model="service.price" placeholder="" required>
+                            <input type="number" class="form-control" name="" id="price" min="0" step="any" v-model="service.price" placeholder="" required>
                         </div>
                     </div>
                     <div class="btn-group" role="group" aria-label="Button group name">
@@ -53,6 +53,7 @@ const saveService = async () => {
         const headers = {
             Authorization: `Bearer ${accessToken}`,
         };
+        service.value.price = parseFloat(service.value.price).toFixed(2);
         const response = await axios.post(`${apiUrl}/services`, service.value, {
             headers,
         });
