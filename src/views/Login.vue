@@ -33,9 +33,12 @@ const authStore = useAuthStore(); // Obtén una instancia de la tienda
 const login = async () => {
     try {
         const response = await axios.post(`${apiUrl}/login`, { email: email.value, password: password.value });
-        const { accessToken, user } = response.data;
+        const { accessToken, user, roles, permissions } = response.data;
         // Guarda el accessToken en la tienda
         authStore.setAccessToken(accessToken);
+        authStore.setUser(user);
+        authStore.setRoles(roles);
+        authStore.setPermissions(permissions);
         router.push('/customers');
     } catch (error) {
         handleErrors(error);
